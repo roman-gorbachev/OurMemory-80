@@ -40,6 +40,8 @@ A single `:app` module, package `com.gorman.ourmemoryapp`:
 
 All data lives in Firebase Realtime Database under the `OurMemory` node. The node layout and access rules are described in [CLAUDE.md](CLAUDE.md).
 
+Storage shares one bucket and one rules file with Green Passport. [`firebase/storage.rules`](firebase/storage.rules) is a copy of the full file; it is deployed from the Green Passport Android repository (`storage.rules`), and the two must stay identical. New admin uids go into `isOurMemoryAdmin()` in both.
+
 ## Building
 
 You need Android Studio (JDK 17) and the Android SDK. `minSdk` is 28.

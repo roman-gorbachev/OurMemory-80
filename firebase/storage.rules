@@ -1,22 +1,63 @@
+// SHARED Storage bucket of chatroom-85fb8: Green Passport + OurMemory.
+// Deployed only from greenpassport-android (`firebase deploy --only storage`); deploying replaces the rules of BOTH apps.
+// Keep this file identical to OurMemory-80/firebase/storage.rules. Never drop the other app's section.
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    function isAdmin() {
-      return request.auth != null && request.auth.uid in ['ADMIN_UID'];
+
+    // ===== Green Passport =====
+
+    function isGreenPassportAdmin() {
+      return request.auth != null &&
+        firestore.exists(/databases/(default)/documents/apps/greenpassport/admins/$(request.auth.uid));
+    }
+
+    function isGreenPassportEditor() {
+      return request.auth != null &&
+        firestore.get(/databases/(default)/documents/apps/greenpassport/admins/$(request.auth.uid)).data
+          .get('role', 'MODERATOR') in ['SUPER_ADMIN', 'EDITOR'];
+    }
+
+    match /greenpassport/submissions/{userId}/{fileName} {
+      allow read: if request.auth != null &&
+        (request.auth.uid == userId || isGreenPassportAdmin());
+      allow create: if request.auth != null && request.auth.uid == userId &&
+        request.resource.size < 5 * 1024 * 1024 &&
+        request.resource.contentType == 'image/jpeg';
+      allow update, delete: if false;
+    }
+
+    match /greenpassport/content/{kind}/{entityId}/{fileName} {
+      allow read: if request.auth != null;
+      allow create, update: if isGreenPassportEditor() &&
+        request.resource.size < 5 * 1024 * 1024 &&
+        request.resource.contentType.matches('image/.*');
+      allow delete: if isGreenPassportEditor();
+    }
+
+    match /greenpassport/{allPaths=**} {
+      allow read: if request.auth != null && !allPaths.matches('submissions/.*');
+      allow write: if false;
+    }
+
+    // ===== OurMemory =====
+
+    function isOurMemoryAdmin() {
+      return request.auth != null && request.auth.uid in ['UljgW1B0wsXG8ZBkjtZekpI9yf73'];
     }
 
     match /OurMemory/Submissions/{submissionId}/{file} {
-      allow read: if isAdmin();
-      allow create: if request.auth != null
-        && request.resource.size < 10 * 1024 * 1024
-        && request.resource.contentType.matches('image/.*');
+      allow read: if isOurMemoryAdmin();
+      allow create: if request.auth != null &&
+        request.resource.size < 10 * 1024 * 1024 &&
+        request.resource.contentType.matches('image/.*');
     }
 
     match /OurMemory/Media/{allPaths=**} {
       allow read: if true;
-      allow write: if isAdmin()
-        && request.resource.size < 50 * 1024 * 1024
-        && request.resource.contentType.matches('(image|audio)/.*');
+      allow write: if isOurMemoryAdmin() &&
+        request.resource.size < 50 * 1024 * 1024 &&
+        request.resource.contentType.matches('(image|audio)/.*');
     }
   }
 }
