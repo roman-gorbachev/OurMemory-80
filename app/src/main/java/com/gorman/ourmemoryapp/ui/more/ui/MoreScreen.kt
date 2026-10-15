@@ -31,7 +31,6 @@ import com.gorman.ourmemoryapp.ui.common.ui.SettingRow
 import com.gorman.ourmemoryapp.ui.common.ui.SettingsDivider
 import com.gorman.ourmemoryapp.ui.common.ui.SettingsGroup
 import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
-import com.gorman.ourmemoryapp.ui.common.ui.rememberQrScanAction
 import com.gorman.ourmemoryapp.ui.common.ui.statusBarContentPadding
 import com.gorman.ourmemoryapp.ui.more.models.AppLanguage
 import com.gorman.ourmemoryapp.ui.more.models.MoreUiIntent
@@ -45,14 +44,13 @@ fun MoreScreen(
     onWriteToUsClick: () -> Unit,
     onMyRequestsClick: () -> Unit,
     onFavoritesClick: () -> Unit,
-    onVeteranScanned: (String) -> Unit,
+    onScanClick: () -> Unit,
     onAdminClick: () -> Unit,
     moreViewModel: MoreViewModel = hiltViewModel()
 ) {
     val state by moreViewModel.uiState.collectAsStateWithLifecycle()
     val currentLanguage = AppLanguage.fromLanguage(LocalConfiguration.current.locales[0].language)
     val onUiIntent = moreViewModel::onUiIntent
-    val scanQr = rememberQrScanAction(onVeteranScanned = onVeteranScanned)
     val signInWithGoogle = rememberGoogleSignInAction(onUiIntent = onUiIntent)
 
     LazyColumn(
@@ -89,7 +87,7 @@ fun MoreScreen(
                 unseenRequestsCount = state.unseenRequestsCount,
                 onMyRequestsClick = onMyRequestsClick,
                 onFavoritesClick = onFavoritesClick,
-                onScanQrClick = scanQr,
+                onScanClick = onScanClick,
                 onWriteToUsClick = onWriteToUsClick
             )
         }
@@ -115,7 +113,7 @@ private fun PersonalGroup(
     unseenRequestsCount: Int,
     onMyRequestsClick: () -> Unit,
     onFavoritesClick: () -> Unit,
-    onScanQrClick: () -> Unit,
+    onScanClick: () -> Unit,
     onWriteToUsClick: () -> Unit
 ) {
     SettingsGroup(title = stringResource(R.string.mine)) {
@@ -134,8 +132,8 @@ private fun PersonalGroup(
         SettingsDivider()
         SettingRow(
             iconRes = R.drawable.qr_code_scanner,
-            title = stringResource(R.string.scan_qr_code),
-            onClick = onScanQrClick
+            title = stringResource(R.string.scan_qr_code_or_name),
+            onClick = onScanClick
         )
         SettingsDivider()
         SettingRow(iconRes = R.drawable.edit, title = stringResource(R.string.write_to_us), onClick = onWriteToUsClick)

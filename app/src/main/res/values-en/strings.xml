@@ -218,6 +218,15 @@
     <string name="start_over">Start over</string>
     <string name="scan_qr_code">Scan QR code</string>
     <string name="not_our_qr_code_msg">This is not a QR code of our cemetery</string>
+    <string name="scan_qr_code_or_name">Scan a QR code or name</string>
+    <string name="point_camera_at_qr_or_name_msg">Point the camera at a QR code or at the name on the headstone</string>
+    <string name="matching_veterans">Matching veterans</string>
+    <string name="no_matching_veterans_msg">No veteran with this name was found. Move closer or point the camera at the QR code</string>
+    <string name="photograph_headstone">Photograph a headstone</string>
+    <string name="recognizing_name">Recognizing the name…</string>
+    <string name="failed_to_recognize_name_msg">Couldn\'t read the inscription. Check your internet connection and try again</string>
+    <string name="camera_permission_needed_msg">Allow camera access to scan QR codes and headstone inscriptions</string>
+    <string name="allow_camera_access">Allow camera access</string>
     <string name="failed_to_open_scanner_msg">Couldn\'t open the scanner. Try pointing the regular camera at the QR code</string>
     <string name="never_forgotten_msg">No one is forgotten, nothing is forgotten</string>
     <string name="thank_you_for_keeping_memory_msg">Thank you for keeping the memory with us</string>

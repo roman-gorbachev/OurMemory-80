@@ -232,6 +232,15 @@
     <string name="start_over">Начать заново</string>
     <string name="scan_qr_code">Сканировать QR-код</string>
     <string name="not_our_qr_code_msg">Это не QR-код нашего кладбища</string>
+    <string name="scan_qr_code_or_name">Сканировать QR-код или имя</string>
+    <string name="point_camera_at_qr_or_name_msg">Наведите камеру на QR-код или на имя на плите</string>
+    <string name="matching_veterans">Похожие ветераны</string>
+    <string name="no_matching_veterans_msg">Ветеран с таким именем не найден. Подойдите ближе или наведите камеру на QR-код</string>
+    <string name="photograph_headstone">Сфотографировать плиту</string>
+    <string name="recognizing_name">Распознаём имя…</string>
+    <string name="failed_to_recognize_name_msg">Не удалось распознать надпись. Проверьте интернет и попробуйте ещё раз</string>
+    <string name="camera_permission_needed_msg">Разрешите доступ к камере, чтобы сканировать QR-коды и надписи на плитах</string>
+    <string name="allow_camera_access">Разрешить доступ к камере</string>
     <string name="failed_to_open_scanner_msg">Не удалось открыть сканер. Попробуйте навести обычную камеру на QR-код</string>
     <string name="never_forgotten_msg">Никто не забыт, ничто не забыто</string>
     <string name="thank_you_for_keeping_memory_msg">Спасибо, что храните память вместе с нами</string>

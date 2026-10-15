@@ -12,6 +12,7 @@ import com.gorman.ourmemoryapp.ui.common.models.VeteranLink
 import com.gorman.ourmemoryapp.ui.details.ui.DetailsScreen
 import com.gorman.ourmemoryapp.ui.details.viewmodels.DetailsViewModel
 import com.gorman.ourmemoryapp.ui.feedback.ui.FeedbackScreen
+import com.gorman.ourmemoryapp.ui.scan.ui.ScannerScreen
 import com.gorman.ourmemoryapp.ui.submission.ui.SubmissionScreen
 
 fun NavGraphBuilder.veteranGraph(navController: NavHostController) {
@@ -34,6 +35,15 @@ fun NavGraphBuilder.veteranGraph(navController: NavHostController) {
             },
             onReportErrorClick = {
                 navController.navigate(Screen.FeedbackScreen.forVeteran(veteranId.orEmpty()))
+            }
+        )
+    }
+    composable(Screen.ScannerScreen.route) {
+        ScannerScreen(
+            onBackClick = { navController.popBackStack() },
+            onVeteranOpen = { veteranId ->
+                navController.popBackStack()
+                navController.navigate("${Screen.DetailScreen.route}/$veteranId")
             }
         )
     }

@@ -107,7 +107,10 @@ private fun AppNavHost(
             }
         }
         tabComposable(Screen.HomeScreen.route, hasStatusBarScrim = true) {
-            MainScreen(onItemClick = openVeteran)
+            MainScreen(
+                onItemClick = openVeteran,
+                onScanClick = { navController.navigate(Screen.ScannerScreen.route) }
+            )
         }
         tabComposable(Screen.MapScreen.route) {
             MapScreen(onBackClick = null, onVeteranClick = openVeteran, onTourClick = openTour)
@@ -124,7 +127,7 @@ private fun AppNavHost(
                 onWriteToUsClick = { navController.navigate(Screen.FeedbackScreen.route) },
                 onMyRequestsClick = { navController.navigate(Screen.MyRequestsScreen.route) },
                 onFavoritesClick = { navController.navigate(Screen.FavoritesScreen.route) },
-                onVeteranScanned = openVeteran,
+                onScanClick = { navController.navigate(Screen.ScannerScreen.route) },
                 onAdminClick = {
                     if (isAdmin) {
                         navController.navigateToTab(TopLevelTab.ADMIN)

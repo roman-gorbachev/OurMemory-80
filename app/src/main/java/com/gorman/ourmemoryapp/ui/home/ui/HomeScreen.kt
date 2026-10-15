@@ -1,13 +1,10 @@
 package com.gorman.ourmemoryapp.ui.home.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,25 +27,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.ui.common.ui.CategoryFilterChips
 import com.gorman.ourmemoryapp.ui.common.ui.EmptyContent
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
+import com.gorman.ourmemoryapp.ui.common.ui.VeteranItem
 import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
-import com.gorman.ourmemoryapp.ui.common.ui.rememberQrScanAction
 import com.gorman.ourmemoryapp.ui.common.ui.statusBarContentPadding
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiIntent
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiState
@@ -57,11 +49,11 @@ import com.gorman.ourmemoryapp.ui.home.viewmodels.HomeViewModel
 @Composable
 fun MainScreen(
     onItemClick: (String) -> Unit,
+    onScanClick: () -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val onUiIntent = homeViewModel::onUiIntent
-    val scanQr = rememberQrScanAction(onVeteranScanned = onItemClick)
 
     Box(
         modifier = Modifier
@@ -74,7 +66,7 @@ fun MainScreen(
             is HomeUiState.Success -> OurMemoryScreen(
                 state = state,
                 onItemClick = onItemClick,
-                onScanClick = scanQr,
+                onScanClick = onScanClick,
                 onUiIntent = onUiIntent
             )
         }
@@ -146,7 +138,8 @@ private fun OurMemoryScreen(
             items(state.veterans, key = { it.id }) { veteran ->
                 VeteranItem(
                     veteran = veteran,
-                    onClick = { onItemClick(veteran.id) }
+                    onClick = { onItemClick(veteran.id) },
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
                 )
             }
         }
@@ -173,7 +166,7 @@ private fun HomeHeader(
             IconButton(onClick = onScanClick, modifier = Modifier.padding(end = 8.dp)) {
                 Icon(
                     painter = painterResource(R.drawable.qr_code_scanner),
-                    contentDescription = stringResource(R.string.scan_qr_code),
+                    contentDescription = stringResource(R.string.scan_qr_code_or_name),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
@@ -223,62 +216,3 @@ private fun SearchField(
         modifier = modifier.fillMaxWidth()
     )
 }
-
-@Composable
-private fun VeteranItem(
-    veteran: Veteran,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 6.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-            .clickable(onClick = onClick)
-            .padding(10.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        AsyncImage(
-            model = veteran.portrait,
-            contentDescription = veteran.name,
-            placeholder = painterResource(R.drawable.portrait_placeholder),
-            error = painterResource(R.drawable.portrait_placeholder),
-            fallback = painterResource(R.drawable.portrait_placeholder),
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .weight(PORTRAIT_WEIGHT)
-                .aspectRatio(PORTRAIT_ASPECT_RATIO)
-                .clip(RoundedCornerShape(10.dp))
-        )
-        Column(modifier = Modifier.weight(TEXT_WEIGHT)) {
-            Text(
-                text = veteran.name,
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
-            )
-            if (veteran.years.isNotBlank()) {
-                Text(
-                    text = veteran.years,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 2.dp)
-                )
-            }
-            Text(
-                text = veteran.baseInfo,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = BASE_INFO_MAX_LINES,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(top = 6.dp)
-            )
-        }
-    }
-}
-
-private const val PORTRAIT_WEIGHT = 1f
-private const val TEXT_WEIGHT = 2f
-private const val PORTRAIT_ASPECT_RATIO = 0.8f
-private const val BASE_INFO_MAX_LINES = 5

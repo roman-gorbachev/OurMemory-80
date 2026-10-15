@@ -228,6 +228,15 @@
     <string name="start_over">Пачаць нанова</string>
     <string name="scan_qr_code">Сканаваць QR-код</string>
     <string name="not_our_qr_code_msg">Гэта не QR-код нашых могілак</string>
+    <string name="scan_qr_code_or_name">Сканаваць QR-код або імя</string>
+    <string name="point_camera_at_qr_or_name_msg">Навядзіце камеру на QR-код або на імя на пліце</string>
+    <string name="matching_veterans">Падобныя ветэраны</string>
+    <string name="no_matching_veterans_msg">Ветэрана з такім імем не знойдзена. Падыдзіце бліжэй або навядзіце камеру на QR-код</string>
+    <string name="photograph_headstone">Сфатаграфаваць пліту</string>
+    <string name="recognizing_name">Распазнаём імя…</string>
+    <string name="failed_to_recognize_name_msg">Не ўдалося распазнаць надпіс. Праверце інтэрнэт і паспрабуйце яшчэ раз</string>
+    <string name="camera_permission_needed_msg">Дазвольце доступ да камеры, каб сканаваць QR-коды і надпісы на плітах</string>
+    <string name="allow_camera_access">Дазволіць доступ да камеры</string>
     <string name="failed_to_open_scanner_msg">Не ўдалося адкрыць сканер. Паспрабуйце навесці звычайную камеру на QR-код</string>
     <string name="never_forgotten_msg">Ніхто не забыты, нішто не забыта</string>
     <string name="thank_you_for_keeping_memory_msg">Дзякуй, што захоўваеце памяць разам з намі</string>
