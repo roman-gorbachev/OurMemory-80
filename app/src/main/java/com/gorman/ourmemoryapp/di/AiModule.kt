@@ -25,7 +25,10 @@ object AiModule {
 
     @Provides
     @Singleton
-    fun provideGenerativeModel(): GenerativeModel = Firebase.ai(backend = GenerativeBackend.agentPlatform())
+    fun provideGenerativeModel(): GenerativeModel = Firebase.ai(
+        backend = GenerativeBackend.agentPlatform(),
+        useLimitedUseAppCheckTokens = true
+    )
         .generativeModel(
             modelName = MODEL_NAME,
             generationConfig = generationConfig { temperature = TEMPERATURE }

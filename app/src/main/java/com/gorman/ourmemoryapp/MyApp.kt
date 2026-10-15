@@ -1,6 +1,9 @@
 package com.gorman.ourmemoryapp
 
 import android.app.Application
+import com.google.firebase.Firebase
+import com.google.firebase.appcheck.appCheck
+import com.gorman.ourmemoryapp.appcheck.AppCheckProviders
 import com.gorman.ourmemoryapp.domain.repository.SettingsRepository
 import com.gorman.ourmemoryapp.reminders.FavoriteAnniversaryScheduler
 import com.gorman.ourmemoryapp.reminders.VictoryDayReminderScheduler
@@ -24,6 +27,7 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Firebase.appCheck.installAppCheckProviderFactory(AppCheckProviders.factory())
         MapKitFactory.setApiKey(BuildConfig.MAPKIT_API_KEY)
         MapKitFactory.initialize(this)
         FavoriteAnniversaryScheduler.schedule(this, Clock.systemDefaultZone())
