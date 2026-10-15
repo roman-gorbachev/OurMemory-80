@@ -356,4 +356,17 @@
     <string name="content_language">Мова кантэнту</string>
     <string name="copy_paragraphs_from_russian">Скапіраваць абзацы з рускай</string>
     <string name="translation_is_optional_msg">Пераклад неабавязковы: пустыя палі паказваюцца па-руску</string>
+    <string name="analyze_with_ai">Праверыць з дапамогай ШІ</string>
+    <string name="analyzing">Аналізуем…</string>
+    <string name="ai_analysis">Аналіз ШІ</string>
+    <string name="ai_analysis_hint_msg">ШІ параўнае заяўку з карткай, расшыфруе дакументы на фота і прапануе тэкст і адказ. Рашэнне застаецца за вамі</string>
+    <string name="failed_to_analyze_msg">Не ўдалося прааналізаваць заяўку. Праверце інтэрнэт і паспрабуйце яшчэ раз</string>
+    <string name="possible_conflicts">Магчымыя разыходжанні з карткай</string>
+    <string name="possible_duplicate_msg">Падобна, гэта ўжо ёсць у картцы</string>
+    <string name="document_transcripts">Расшыфроўка дакументаў</string>
+    <string name="suggested_text">Прапанаваны тэкст</string>
+    <string name="use_suggested_text">Падставіць тэкст</string>
+    <string name="suggested_reply">Прапанаваны адказ аўтару</string>
+    <string name="use_suggested_reply">Падставіць адказ</string>
+    <string name="ai_can_make_mistakes_msg">ШІ можа памыляцца: праверце факты перад адабрэннем</string>
 </resources>

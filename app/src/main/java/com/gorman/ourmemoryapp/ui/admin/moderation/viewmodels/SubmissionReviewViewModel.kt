@@ -7,14 +7,20 @@ import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.domain.models.ModerationDeniedException
 import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.domain.models.Submission
+import com.gorman.ourmemoryapp.domain.models.SubmissionAnalysis
+import com.gorman.ourmemoryapp.domain.models.SubmissionAnalysisInput
 import com.gorman.ourmemoryapp.domain.models.SubmissionApproval
+import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.domain.models.VeteranInfoFormat
 import com.gorman.ourmemoryapp.domain.repository.ModerationRepository
+import com.gorman.ourmemoryapp.domain.repository.SubmissionAnalysisRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.ReviewFailure
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.ReviewPhotoUi
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.SubmissionReviewUiIntent
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.SubmissionReviewUiState
 import com.gorman.ourmemoryapp.ui.common.models.toDisplayDate
+import com.gorman.ourmemoryapp.ui.details.models.parseRewards
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +39,8 @@ import javax.inject.Inject
 class SubmissionReviewViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val moderationRepository: ModerationRepository,
-    private val veteransRepository: VeteransRepository
+    private val veteransRepository: VeteransRepository,
+    private val analysisRepository: SubmissionAnalysisRepository
 ) : ViewModel() {
 
     private val submissionId = savedStateHandle.get<String>(Screen.AdminSubmissionScreen.SUBMISSION_ID_ARG).orEmpty()
@@ -60,6 +67,13 @@ class SubmissionReviewViewModel @Inject constructor(
             }
             is SubmissionReviewUiIntent.OnApproveClick -> approve(intent.photoCaption)
             SubmissionReviewUiIntent.OnRejectClick -> reject()
+            is SubmissionReviewUiIntent.OnAnalyzeClick -> analyze(intent.rewardNames)
+            SubmissionReviewUiIntent.OnUseSuggestedTextClick -> form.update { state ->
+                state.copy(editedText = state.analysis?.suggestedText ?: state.editedText)
+            }
+            SubmissionReviewUiIntent.OnUseSuggestedReplyClick -> form.update { state ->
+                state.copy(reply = state.analysis?.suggestedReply ?: state.reply)
+            }
         }
     }
 
@@ -89,7 +103,10 @@ class SubmissionReviewViewModel @Inject constructor(
             status = loaded.submission.status,
             isProcessing = form.isProcessing,
             failure = form.failure,
-            isFinished = form.isFinished
+            isFinished = form.isFinished,
+            analysis = form.analysis,
+            isAnalyzing = form.isAnalyzing,
+            analysisFailed = form.analysisFailed
         )
     }.catch<SubmissionReviewUiState> { error ->
         Log.e(LOG_TAG, "Failed to load submission $submissionId", error)
@@ -111,6 +128,51 @@ class SubmissionReviewViewModel @Inject constructor(
             )
         }
     }
+
+    private fun analyze(rewardNames: Map<Int, String>) {
+        val loaded = loadedSubmission.replayCache.firstOrNull()?.getOrNull() ?: return
+        if (form.value.isAnalyzing) return
+        form.update { it.copy(isAnalyzing = true, analysisFailed = false) }
+        val state = form.value
+        viewModelScope.launch {
+            runCatching {
+                val veteran = veteransRepository.getOriginalVeterans()
+                    .firstOrNull { it.id == loaded.submission.veteranId } ?: Veteran()
+                analysisRepository.analyze(
+                    analysisInput(
+                        veteran = veteran,
+                        loaded = loaded,
+                        text = state.editedText ?: loaded.submission.text,
+                        photoUrls = loaded.photoUrls.filter { it !in state.deselectedUrls },
+                        rewardNames = rewardNames
+                    )
+                )
+            }.onSuccess { analysis ->
+                form.update { it.copy(isAnalyzing = false, analysis = analysis) }
+            }.onFailure { error ->
+                Log.e(LOG_TAG, "Failed to analyze submission $submissionId", error)
+                form.update { it.copy(isAnalyzing = false, analysisFailed = true) }
+            }
+        }
+    }
+
+    private fun analysisInput(
+        veteran: Veteran,
+        loaded: LoadedSubmission,
+        text: String,
+        photoUrls: List<String>,
+        rewardNames: Map<Int, String>
+    ) = SubmissionAnalysisInput(
+        veteranName = veteran.name.ifBlank { loaded.veteranName },
+        years = veteran.years,
+        birthDate = veteran.birthDate,
+        deathDate = veteran.deathDate,
+        biography = veteran.allInfo.ifBlank { veteran.baseInfo },
+        rewards = parseRewards(veteran.rewards).mapNotNull { rewardNames[it.reward.id] },
+        cardMaterials = veteran.veteransInfo.filter { !it.contains(VeteranInfoFormat.LINK_MARKER) },
+        submissionText = text,
+        photoUrls = photoUrls
+    )
 
     private fun reject() {
         val reply = form.value.reply ?: loadedSubmission.replayCache.firstOrNull()?.getOrNull()?.submission?.reply
@@ -147,7 +209,10 @@ class SubmissionReviewViewModel @Inject constructor(
         val deselectedUrls: Set<String> = emptySet(),
         val isProcessing: Boolean = false,
         val failure: ReviewFailure? = null,
-        val isFinished: Boolean = false
+        val isFinished: Boolean = false,
+        val analysis: SubmissionAnalysis? = null,
+        val isAnalyzing: Boolean = false,
+        val analysisFailed: Boolean = false
     )
 
     companion object {

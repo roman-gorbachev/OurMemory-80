@@ -103,6 +103,7 @@ private fun SubmissionReviewContent(
                 )
             }
         }
+        item { SubmissionAnalysisSection(state = state, onUiIntent = onUiIntent) }
         state.failure?.let { failure ->
             item {
                 Text(

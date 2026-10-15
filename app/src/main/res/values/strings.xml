@@ -360,4 +360,17 @@
     <string name="content_language">Язык контента</string>
     <string name="copy_paragraphs_from_russian">Скопировать абзацы из русского</string>
     <string name="translation_is_optional_msg">Перевод необязателен: пустые поля показываются на русском</string>
+    <string name="analyze_with_ai">Проверить с помощью ИИ</string>
+    <string name="analyzing">Анализируем…</string>
+    <string name="ai_analysis">Анализ ИИ</string>
+    <string name="ai_analysis_hint_msg">ИИ сравнит заявку с карточкой, расшифрует документы на фото и предложит текст и ответ. Решение остаётся за вами</string>
+    <string name="failed_to_analyze_msg">Не удалось проанализировать заявку. Проверьте интернет и попробуйте ещё раз</string>
+    <string name="possible_conflicts">Возможные расхождения с карточкой</string>
+    <string name="possible_duplicate_msg">Похоже, это уже есть в карточке</string>
+    <string name="document_transcripts">Расшифровка документов</string>
+    <string name="suggested_text">Предложенный текст</string>
+    <string name="use_suggested_text">Подставить текст</string>
+    <string name="suggested_reply">Предложенный ответ автору</string>
+    <string name="use_suggested_reply">Подставить ответ</string>
+    <string name="ai_can_make_mistakes_msg">ИИ может ошибаться: проверьте факты перед одобрением</string>
 </resources>

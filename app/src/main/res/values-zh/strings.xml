@@ -328,4 +328,17 @@
     <string name="content_language">内容语言</string>
     <string name="copy_paragraphs_from_russian">从俄语复制段落</string>
     <string name="translation_is_optional_msg">翻译为可选项：空字段显示俄语原文</string>
+    <string name="analyze_with_ai">用人工智能检查</string>
+    <string name="analyzing">正在分析…</string>
+    <string name="ai_analysis">人工智能分析</string>
+    <string name="ai_analysis_hint_msg">人工智能会将申请与资料卡对比，识别照片中的文件，并建议文本和回复。最终由您决定</string>
+    <string name="failed_to_analyze_msg">无法分析该申请。请检查网络连接后重试</string>
+    <string name="possible_conflicts">可能与资料卡不一致之处</string>
+    <string name="possible_duplicate_msg">资料卡中似乎已有此内容</string>
+    <string name="document_transcripts">文件识别结果</string>
+    <string name="suggested_text">建议文本</string>
+    <string name="use_suggested_text">使用此文本</string>
+    <string name="suggested_reply">建议给作者的回复</string>
+    <string name="use_suggested_reply">使用此回复</string>
+    <string name="ai_can_make_mistakes_msg">人工智能可能出错：批准前请核实事实</string>
 </resources>

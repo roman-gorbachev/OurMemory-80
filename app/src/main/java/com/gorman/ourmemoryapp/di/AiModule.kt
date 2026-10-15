@@ -1,15 +1,20 @@
 package com.gorman.ourmemoryapp.di
 
 import com.google.firebase.Firebase
-import com.google.firebase.ai.GenerativeModel
+import com.google.firebase.ai.FirebaseAI
 import com.google.firebase.ai.ai
 import com.google.firebase.ai.type.GenerativeBackend
-import com.google.firebase.ai.type.generationConfig
+import com.google.gson.Gson
 import com.gorman.ourmemoryapp.data.inscription.datasource.remote.InscriptionRemoteDataSource
 import com.gorman.ourmemoryapp.data.inscription.datasource.remote.InscriptionRemoteDataSourceImpl
 import com.gorman.ourmemoryapp.data.inscription.repository.InscriptionRepositoryImpl
+import com.gorman.ourmemoryapp.data.submissionanalysis.datasource.remote.ReviewPhotoLoader
+import com.gorman.ourmemoryapp.data.submissionanalysis.datasource.remote.SubmissionAnalysisRemoteDataSource
+import com.gorman.ourmemoryapp.data.submissionanalysis.datasource.remote.SubmissionAnalysisRemoteDataSourceImpl
+import com.gorman.ourmemoryapp.data.submissionanalysis.repository.SubmissionAnalysisRepositoryImpl
 import com.gorman.ourmemoryapp.di.annotation.IoDispatcher
 import com.gorman.ourmemoryapp.domain.repository.InscriptionRepository
+import com.gorman.ourmemoryapp.domain.repository.SubmissionAnalysisRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,23 +26,18 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AiModule {
     private const val MODEL_NAME = "gemini-3.8-flash"
-    private const val TEMPERATURE = 0f
 
     @Provides
     @Singleton
-    fun provideGenerativeModel(): GenerativeModel = Firebase.ai(
+    fun provideFirebaseAi(): FirebaseAI = Firebase.ai(
         backend = GenerativeBackend.agentPlatform(),
         useLimitedUseAppCheckTokens = true
     )
-        .generativeModel(
-            modelName = MODEL_NAME,
-            generationConfig = generationConfig { temperature = TEMPERATURE }
-        )
 
     @Provides
     @Singleton
-    fun provideInscriptionRemoteDataSource(model: GenerativeModel): InscriptionRemoteDataSource =
-        InscriptionRemoteDataSourceImpl(model)
+    fun provideInscriptionRemoteDataSource(firebaseAi: FirebaseAI): InscriptionRemoteDataSource =
+        InscriptionRemoteDataSourceImpl(firebaseAi, MODEL_NAME)
 
     @Provides
     @Singleton
@@ -45,4 +45,21 @@ object AiModule {
         remoteDataSource: InscriptionRemoteDataSource,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): InscriptionRepository = InscriptionRepositoryImpl(remoteDataSource, ioDispatcher)
+
+    @Provides
+    @Singleton
+    fun provideSubmissionAnalysisRemoteDataSource(firebaseAi: FirebaseAI): SubmissionAnalysisRemoteDataSource =
+        SubmissionAnalysisRemoteDataSourceImpl(firebaseAi, MODEL_NAME)
+
+    @Provides
+    @Singleton
+    fun provideSubmissionAnalysisRepository(
+        remoteDataSource: SubmissionAnalysisRemoteDataSource,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher
+    ): SubmissionAnalysisRepository = SubmissionAnalysisRepositoryImpl(
+        remoteDataSource = remoteDataSource,
+        photoLoader = ReviewPhotoLoader(),
+        gson = Gson(),
+        ioDispatcher = ioDispatcher
+    )
 }

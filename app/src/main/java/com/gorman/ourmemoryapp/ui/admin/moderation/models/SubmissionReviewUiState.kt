@@ -1,6 +1,7 @@
 package com.gorman.ourmemoryapp.ui.admin.moderation.models
 
 import com.gorman.ourmemoryapp.domain.models.ModerationStatus
+import com.gorman.ourmemoryapp.domain.models.SubmissionAnalysis
 import kotlinx.collections.immutable.ImmutableList
 
 sealed interface SubmissionReviewUiState {
@@ -16,7 +17,10 @@ sealed interface SubmissionReviewUiState {
         val status: ModerationStatus,
         val isProcessing: Boolean,
         val failure: ReviewFailure?,
-        val isFinished: Boolean
+        val isFinished: Boolean,
+        val analysis: SubmissionAnalysis?,
+        val isAnalyzing: Boolean,
+        val analysisFailed: Boolean
     ) : SubmissionReviewUiState {
         val isEditable = status == ModerationStatus.PENDING && !isProcessing
     }

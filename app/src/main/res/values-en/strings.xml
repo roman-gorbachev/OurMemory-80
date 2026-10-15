@@ -340,4 +340,17 @@
     <string name="content_language">Content language</string>
     <string name="copy_paragraphs_from_russian">Copy paragraphs from Russian</string>
     <string name="translation_is_optional_msg">Translation is optional: empty fields show the Russian text</string>
+    <string name="analyze_with_ai">Check with AI</string>
+    <string name="analyzing">Analyzing…</string>
+    <string name="ai_analysis">AI analysis</string>
+    <string name="ai_analysis_hint_msg">AI compares the request with the card, transcribes documents in the photos and suggests a text and a reply. The decision is yours</string>
+    <string name="failed_to_analyze_msg">Couldn\'t analyze the request. Check your internet connection and try again</string>
+    <string name="possible_conflicts">Possible conflicts with the card</string>
+    <string name="possible_duplicate_msg">This seems to be in the card already</string>
+    <string name="document_transcripts">Document transcripts</string>
+    <string name="suggested_text">Suggested text</string>
+    <string name="use_suggested_text">Use this text</string>
+    <string name="suggested_reply">Suggested reply to the author</string>
+    <string name="use_suggested_reply">Use this reply</string>
+    <string name="ai_can_make_mistakes_msg">AI can make mistakes: check the facts before approving</string>
 </resources>
