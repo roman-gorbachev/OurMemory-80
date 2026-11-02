@@ -266,7 +266,7 @@
     <string name="already_administrator_msg">Этот аккаунт уже администратор</string>
     <string name="remove_administrator_msg">Снять права администратора?</string>
     <string name="copy_uid">Скопировать UID</string>
-    <string name="add_uid_to_storage_rules_msg">Чтобы администратор мог загружать фото и аудио, добавьте его UID в функцию isAdmin() правил Storage</string>
+    <string name="add_uid_to_storage_rules_msg">Чтобы администратор мог загружать фото и аудио, добавьте его UID в функцию isOurMemoryAdmin() правил Storage</string>
     <string name="add_and_remove_administrators_msg">Добавление и удаление администраторов</string>
     <string name="administrators">Администраторы</string>
     <string name="do_not_publish_whole_rules_file_msg">Не публикуйте файлы правил из проекта целиком: база общая с другими приложениями, и их правила сотрутся. Правьте только узел OurMemory.</string>
@@ -327,7 +327,7 @@
     <string-array name="add_administrator_steps">
         <item>Новый администратор один раз входит в приложение: через Google в «Ещё» или через «Вход для администратора» со своим e-mail.</item>
         <item>Супер-администратор открывает Админ → «Администраторы» и добавляет его по e-mail.</item>
-        <item>Storage → Rules: допишите UID нового администратора (его можно скопировать на экране «Администраторы») в список функции isAdmin() и нажмите «Publish». Без этого он не сможет загружать фото и аудио.</item>
+        <item>Storage → Rules: допишите UID нового администратора (его можно скопировать на экране «Администраторы») в список функции isOurMemoryAdmin() и нажмите «Publish». Без этого он не сможет загружать фото и аудио.</item>
         <item>После перезапуска приложения у нового администратора появляется вкладка «Админ».</item>
         <item>Чтобы снять права, удалите администратора на экране «Администраторы» и уберите его UID из правил Storage.</item>
         <item>Супер-администраторы назначаются только в Firebase Console: узел OurMemory/SuperAdmins, ключ UID со значением true (и тот же UID в OurMemory/Admins).</item>

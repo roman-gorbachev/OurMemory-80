@@ -243,7 +243,7 @@
     <string name="already_administrator_msg">此账户已是管理员</string>
     <string name="remove_administrator_msg">撤销管理员权限？</string>
     <string name="copy_uid">复制 UID</string>
-    <string name="add_uid_to_storage_rules_msg">要让管理员能上传照片和音频，请将其 UID 添加到 Storage 规则的 isAdmin() 函数中</string>
+    <string name="add_uid_to_storage_rules_msg">要让管理员能上传照片和音频，请将其 UID 添加到 Storage 规则的 isOurMemoryAdmin() 函数中</string>
     <string name="add_and_remove_administrators_msg">添加和移除管理员</string>
     <string name="administrators">管理员</string>
     <string name="do_not_publish_whole_rules_file_msg">不要整体发布项目中的规则文件：数据库与其他应用共用，它们的规则会被清除。只修改 OurMemory 节点。</string>
@@ -304,7 +304,7 @@
     <string-array name="add_administrator_steps">
         <item>新管理员先登录一次应用：在“更多”中使用 Google，或通过“管理员登录”使用自己的电子邮件。</item>
         <item>超级管理员打开 管理 → “管理员”，按电子邮件添加。</item>
-        <item>Storage → Rules：将新管理员的 UID（可在“管理员”页面复制）添加到 isAdmin() 函数列表中，然后点击“Publish”。否则对方无法上传照片和音频。</item>
+        <item>Storage → Rules：将新管理员的 UID（可在“管理员”页面复制）添加到 isOurMemoryAdmin() 函数列表中，然后点击“Publish”。否则对方无法上传照片和音频。</item>
         <item>重启应用后，新管理员会看到“管理”标签页。</item>
         <item>要撤销权限，请在“管理员”页面移除该管理员，并从 Storage 规则中删除其 UID。</item>
         <item>超级管理员只能在 Firebase Console 中指定：在 OurMemory/SuperAdmins 节点下添加 UID 键，值为 true（并在 OurMemory/Admins 中添加同一 UID）。</item>

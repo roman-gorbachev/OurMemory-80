@@ -36,14 +36,18 @@ service firebase.storage {
     }
 
     match /greenpassport/{allPaths=**} {
-      allow read: if request.auth != null && !allPaths.matches('submissions/.*');
+      allow read: if request.auth != null && !string(allPaths).matches('submissions/.*');
       allow write: if false;
     }
 
     // ===== OurMemory =====
 
     function isOurMemoryAdmin() {
-      return request.auth != null && request.auth.uid in ['UljgW1B0wsXG8ZBkjtZekpI9yf73'];
+      return request.auth != null && request.auth.uid in [
+        'UljgW1B0wsXG8ZBkjtZekpI9yf73',
+        'yEeyyyweYQQmS0kfyu0Oeya1H0w2',
+        'povf8wvs6JfyorRTuH0cCqZIEGG3'
+      ];
     }
 
     match /OurMemory/Submissions/{submissionId}/{file} {

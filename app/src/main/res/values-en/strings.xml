@@ -252,7 +252,7 @@
     <string name="already_administrator_msg">This account is already an administrator</string>
     <string name="remove_administrator_msg">Revoke administrator rights?</string>
     <string name="copy_uid">Copy UID</string>
-    <string name="add_uid_to_storage_rules_msg">To let the administrator upload photos and audio, add their UID to the isAdmin() function of the Storage rules</string>
+    <string name="add_uid_to_storage_rules_msg">To let the administrator upload photos and audio, add their UID to the isOurMemoryAdmin() function of the Storage rules</string>
     <string name="add_and_remove_administrators_msg">Add and remove administrators</string>
     <string name="administrators">Administrators</string>
     <string name="do_not_publish_whole_rules_file_msg">Don\'t publish the rules files from the project as a whole: the database is shared with other apps, and their rules would be erased. Edit only the OurMemory node.</string>
@@ -313,7 +313,7 @@
     <string-array name="add_administrator_steps">
         <item>The new administrator signs in to the app once: with Google in More or via “Administrator sign-in” with their e-mail.</item>
         <item>A super administrator opens Admin → “Administrators” and adds them by e-mail.</item>
-        <item>Storage → Rules: add the new administrator\'s UID (it can be copied on the Administrators screen) to the isAdmin() function list and tap “Publish”. Without this they cannot upload photos and audio.</item>
+        <item>Storage → Rules: add the new administrator\'s UID (it can be copied on the Administrators screen) to the isOurMemoryAdmin() function list and tap “Publish”. Without this they cannot upload photos and audio.</item>
         <item>After restarting the app, the new administrator gets the Admin tab.</item>
         <item>To revoke rights, remove the administrator on the Administrators screen and delete their UID from the Storage rules.</item>
         <item>Super administrators are assigned only in the Firebase Console: the OurMemory/SuperAdmins node, the UID key with the value true (and the same UID in OurMemory/Admins).</item>

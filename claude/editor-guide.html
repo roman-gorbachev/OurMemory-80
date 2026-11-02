@@ -130,7 +130,7 @@
       <li>В консоли Firebase откройте <b>Authentication → Sign-in method</b> и включите <b>Email/Password</b>.</li>
       <li>В <b>Authentication → Users</b> добавьте пользователя с e-mail редактора и временным паролем. Скопируйте его <b>User UID</b>.</li>
       <li>В <b>Realtime Database</b> внутри узла <code>OurMemory/Admins</code> добавьте запись: ключ — UID, значение — <code>true</code>.</li>
-      <li>Чтобы редактор мог загружать фото и аудио, впишите тот же UID в список <code>isAdmin()</code> в файле <code>firebase/storage.rules</code> и опубликуйте правила Storage в консоли.</li>
+      <li>Чтобы редактор мог загружать фото и аудио, впишите тот же UID в список <code>isOurMemoryAdmin()</code> в файле <code>firebase/storage.rules</code> и опубликуйте правила Storage в консоли.</li>
       <li>Редактор открывает приложение: <span class="path">Ещё → Вход для администратора</span>. После входа внизу появится вкладка <span class="path">Админ</span>.</li>
     </ol>
     <div class="note">
